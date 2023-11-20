@@ -5,4 +5,3 @@ RUN chmod a+x /run.sh
 EXPOSE 8080:8080
 CMD /run.sh
 ENV user=vivekkontham
-ENV pass=vivekkkkk
