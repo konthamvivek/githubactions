@@ -11,6 +11,8 @@ jobs:
   build:
 
     runs-on: self-hosted
+    container: 
+      image: maven
 
     steps:
     - uses: actions/checkout@v3
