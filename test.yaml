@@ -1,0 +1,54 @@
+
+replicas: 1 # for better debugging experience
+controller:
+  env:
+    - name: FEATURE_GATES
+      value: Drift=true
+    - name: LEADER_ELECT # disable leader election for better debugging / troubleshooting experience
+      value: "false"
+    # disable HTTP/2 to reduce ARM throttling on large-scale tests;
+    # with this in place write (and read) QPS can be increased too
+    #- name: GODEBUG
+    #  value: http2client=0
+
+    # options
+    - name: CLUSTER_NAME
+      value: "karpenter-new"
+    - name: CLUSTER_ENDPOINT
+      value: "https://karpenter--karpenter-test-b5b101-scbbjlvg.hcp.westeurope.azmk8s.io:443"
+    - name: KUBELET_BOOTSTRAP_TOKEN
+      value: "wusmtx.lljzipduifck05ue"
+    - name: SSH_PUBLIC_KEY
+      value: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvnPlGoRpkwKX6zdEVuaSjRPzBkXXxcd+vV4fmEHZR2yj+iq3PkBKApBWcSZkdx6NRqdL5p7ELbUNUprXh9ozyXbiVV+urbUEOeqOCVHIJXdfL4keiOg6RaP
+du1PwenvYbsGNKay7lEw4xlL9Pbc4tMy0Vt1JngL/Pazm/rlegprm7Lsqyl7UC8F/PkIsnU7P5Z2d0IRnl4CptcG8BkVDVgs/4FpuqEEAQCi++f7fReybRIkjnw0sZkkAs9JfQzPUUZpvmvUYJIqHaTciVDnxL
+xeMYci3v8TCOzv6zLJLqwTVgDcc56Treq/hD5wfM4gjz0ccPintZKAHMtOBQ417J azureuser"
+    - name: NETWORK_PLUGIN
+      value: "azure"
+    - name: NETWORK_POLICY
+      value: ""
+    - name: VNET_SUBNET_ID
+      value: "/subscriptions/b5b101b4-d769-4f90-b6c8-7c0d73f78323/resourceGroups/MC_karpenter-test_karpenter-new_westeurope/providers/Microsoft.Network/virtualNetworks/aks-
+vnet-38372442/subnets/aks-subnet"
+    - name: NODE_IDENTITIES
+      value: "/subscriptions/b5b101b4-d769-4f90-b6c8-7c0d73f78323/resourcegroups/MC_karpenter-test_karpenter-new_westeurope/providers/Microsoft.ManagedIdentity/userAssigned
+Identities/karpenter-new-agentpool"
+
+    # Azure client settings
+    - name: ARM_SUBSCRIPTION_ID
+      value: "b5b101b4-d769-4f90-b6c8-7c0d73f78323"
+    - name: LOCATION
+      value: "westeurope"
+    # settings for managed workload ideneity
+    - name: ARM_USE_CREDENTIAL_FROM_ENVIRONMENT
+      value: "true"
+    - name: ARM_USE_MANAGED_IDENTITY_EXTENSION
+      value: "false"
+    - name: ARM_USER_ASSIGNED_IDENTITY_ID
+      value: ""
+    - name: AZURE_NODE_RESOURCE_GROUP
+      value: "MC_karpenter-test_karpenter-new_westeurope"
+serviceAccount:
+  name: karpenter-sa
+  annotations:
+    azure.workload.identity/client-id: 765eefda-4a9b-4dc5-bc69-0ea584db39e5
+podLabels:
